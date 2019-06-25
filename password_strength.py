@@ -34,7 +34,7 @@ def has_username(username, password):
 def make_testlist(password, blacklist, username):
     testlist = []
     if is_in_blacklist(password, blacklist):
-        testlist.append(1)
+        testlist.append(False)
     else:
         testlist.append(has_lower_case(password))
         testlist.append(has_upper_case(password))
