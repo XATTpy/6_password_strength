@@ -2,8 +2,8 @@ from getpass import getpass
 import re
 
 
-def load_blacklist(file):
-    with open(file, 'r') as opened_file:
+def load_blacklist(filename):
+    with open(filename, 'r') as opened_file:
         return opened_file.read().split()
 
 
