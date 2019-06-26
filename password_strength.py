@@ -5,7 +5,7 @@ from sys import argv
 
 def load_blacklist(path_to_file):
     with open(path_to_file, 'r') as opened_file:
-        return opened_file.read().split()
+        return opened_file.read().split("\n")
 
 
 def is_in_blacklist(password, blacklist):
