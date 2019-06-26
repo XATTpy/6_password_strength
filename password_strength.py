@@ -8,6 +8,18 @@ def load_blacklist(path_to_file):
         return opened_file.read().split("\n")
 
 
+def get_blacklist(argv):
+    if len(argv) > 1:
+        try:
+            blacklist = load_blacklist(argv[1])
+        except(FileNotFoundError, UnicodeDecodeError):
+            print("Blacklist not found.")
+            blacklist = []
+    else:
+        blacklist = []
+    return blacklist
+
+
 def is_in_blacklist(password, blacklist):
     return bool(password in blacklist)
 
@@ -65,17 +77,8 @@ if __name__ == "__main__":
         quit("Password is empty.")
     if len(password) < 6:
         quit("Password must include 6 or more characters")
-    
-    path_to_file = argv
-    if len(path_to_file) > 1:
-        try:
-            blacklist = load_blacklist(path_to_file[1])
-        except(FileNotFoundError, UnicodeDecodeError):
-            print("Blacklist not found.")
-            blacklist = []
-    else:
-        blacklist = []
 
+    blacklist = get_blacklist(argv)
     testlist = make_testlist(password, username, blacklist)
     password_rating = get_password_strength(testlist)
     show_password_rating(password_rating)
