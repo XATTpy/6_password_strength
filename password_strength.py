@@ -1,9 +1,10 @@
 from getpass import getpass
 import re
+from sys import argv
 
 
-def load_blacklist(filename):
-    with open(filename, 'r') as opened_file:
+def load_blacklist(path_to_file):
+    with open(path_to_file, 'r') as opened_file:
         return opened_file.read().split()
 
 
@@ -31,7 +32,7 @@ def has_username(username, password):
     return bool(not username.lower() in password.lower())
 
 
-def make_testlist(password, blacklist, username):
+def make_testlist(password, username, blacklist):
     testlist = []
     if is_in_blacklist(password, blacklist):
         testlist.append(False)
@@ -58,13 +59,23 @@ def show_password_rating(password_rating):
 if __name__ == "__main__":
 
     password = getpass(prompt="Input your password: ")
+    username = input("Input your name: ")
+
     if not password:
         quit("Password is empty.")
     if len(password) < 6:
         quit("Password must include 6 or more characters")
+    
+    path_to_file = argv
+    if len(path_to_file) > 1:
+        try:
+            blacklist = load_blacklist(path_to_file[1])
+        except(FileNotFoundError, UnicodeDecodeError):
+            print("Blacklist not found.")
+            blacklist = []
+    else:
+        blacklist = []
 
-    username = input("Input your name: ")
-    blacklist = load_blacklist("blacklist.txt")
-    testlist = make_testlist(password, blacklist, username)
+    testlist = make_testlist(password, username, blacklist)
     password_rating = get_password_strength(testlist)
     show_password_rating(password_rating)
