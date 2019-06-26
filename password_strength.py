@@ -49,7 +49,7 @@ def get_password_strength(testlist):
     if len(testlist) == 1:
         return 1
     else:
-        return testlist.count(True) * 2
+        return sum(testlist) * 2
 
 
 def show_password_rating(password_rating):
